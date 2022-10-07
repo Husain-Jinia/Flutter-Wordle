@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordlr_mmultiplayer/screens/single_player_game_screen.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({Key? key}) : super(key: key);
@@ -31,7 +32,14 @@ class _StartScreenState extends State<StartScreen> {
               style:ElevatedButton.styleFrom(
                 primary: Colors.blue[400]
               ),
-              onPressed: (){}, 
+              onPressed: (){
+                Navigator.pushReplacement<void, void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const SinglePlayer(),
+                  ),
+                );
+              }, 
               child: const Text("Start game")
             ))
           ],
