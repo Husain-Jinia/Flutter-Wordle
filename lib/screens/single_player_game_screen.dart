@@ -28,6 +28,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
 
   int tileNumber = 0;
   int tileSet = 0;
+  String tempWord = "whale";
   // TextEditingController controller1 = TextEditingController();
   // TextEditingController controller2 = TextEditingController();
   // TextEditingController controller3 = TextEditingController();
@@ -40,7 +41,39 @@ class _SinglePlayerState extends State<SinglePlayer> {
     super.initState();
   }
 
-  
+  // function for when user submits the word
+  onSubmit(){
+    late String tempSubittedWord;
+    if(activeTileSet == 0){
+      tempSubittedWord = tileList1.join();
+    }else if (activeTileSet == 1){
+      tempSubittedWord = tileList2.join();  
+    }else if(activeTileSet == 2){
+      tempSubittedWord = tileList3.join();  
+    }else if(activeTileSet == 3){
+      tempSubittedWord = tileList4.join();  
+    }else if(activeTileSet == 4){
+      tempSubittedWord = tileList5.join();  
+    }else if(activeTileSet == 5){
+      tempSubittedWord = tileList6.join();  
+    }else{
+      tempSubittedWord = "";
+    }
+    if(tempWord == tempSubittedWord){
+      print("yay");
+    }
+    else if(activeTileSet>6){
+      print("fail");
+    }
+    else{
+      setState(() {
+        activeTileSet = activeTileSet + 1;
+        tileCount = 0;
+        tileSet = tileSet +1;
+      });
+    }
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -272,11 +305,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
                         ElevatedButton(
                           onPressed: (){
                             if(tileCount >= 4){
-                              setState(() {
-                                 activeTileSet = activeTileSet + 1;
-                                tileCount = 0;
-                                tileSet = tileSet +1;
-                              });
+                              onSubmit();
                                
                               }
                           }, 
