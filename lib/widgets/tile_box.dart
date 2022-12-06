@@ -29,7 +29,7 @@ class _TileBoxState extends State<TileBox> {
         Colors.grey[300],
         borderRadius: BorderRadius.circular(10)
       ),
-      child: Center(child: Text(widget.tileLetter, style: const TextStyle(fontSize: 16, color: Colors.black54, fontWeight: FontWeight.bold),),), 
+      child: Center(child: Text(widget.tileLetter.toUpperCase(), style: const TextStyle(fontSize: 16, color: Colors.black54, fontWeight: FontWeight.bold),),), 
     );
   }
 }
