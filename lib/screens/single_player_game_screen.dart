@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+import 'package:wordlr_mmultiplayer/screens/start_screen.dart';
 import 'package:wordlr_mmultiplayer/widgets/text_box_field.dart';
 import 'package:wordlr_mmultiplayer/widgets/tile_box.dart';
 import 'package:wordlr_mmultiplayer/widgets/tile_set.dart';
@@ -38,6 +39,81 @@ class _SinglePlayerState extends State<SinglePlayer> {
   void initState() {
     // TODO: implement initState
     super.initState();
+  }
+
+  onGameLoss(){
+     return showDialog(
+      context: context, 
+      builder: (BuildContext context){
+        return AlertDialog(
+          content: Container(
+            height: 150,
+            width: 300,
+            child: Center(child:Text("GAME OVER")),
+          )
+        );
+      });
+  }
+
+  onGameWin(){
+    return showDialog(
+      context: context, 
+      builder: (BuildContext context){
+        return AlertDialog(
+          content: Container(
+            height: 250,
+            width: 300,
+            child: Column(
+              children: [
+                Text("CONGRATULATIONS", style: TextStyle(fontWeight: FontWeight.bold),),
+                Divider(
+                  height: 15,
+
+                ),
+                const SizedBox(height: 40,),
+                Text("LEVEL 1", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                const SizedBox(height: 25,),
+                activeTileSet==0?
+                Text("Solved in a single step"):Text("Solved in ${activeTileSet+1} steps"),
+                 const SizedBox(height: 75),
+                 Divider(
+                  height: 15,
+
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement<void, void>(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => const StartScreen(),
+                        ),
+                      );
+                    },
+                    child: Text("Exit to home screen"),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement<void, void>(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => const SinglePlayer(),
+                        ),
+                      );
+                       
+                    },
+                    child: Text("Next level"),
+                  )
+                ],)
+              ],
+            ),
+          ),
+        );
+      }
+    );
   }
 
   // function for when user submits the word
@@ -131,6 +207,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
         // }
       } 
     }else if(activeTileSet == 5){
+      activeTileSet=6;
       tempSubittedWord = tileList6.join();
       for (var i = 0; i< tileList1.length; i++) {
         for (var j = 0; j < tempWord.length; i++) {
@@ -153,10 +230,10 @@ class _SinglePlayerState extends State<SinglePlayer> {
     }
     print(tempWord.split(""));
     if(tempWord == tempSubittedWord){
-      print("yay");
+      onGameWin();
     }
-    else if(activeTileSet==5){
-      print("fail");
+    else if(activeTileSet>5){
+      onGameLoss();
     }
     else{
       setState(() {
@@ -409,7 +486,68 @@ class _SinglePlayerState extends State<SinglePlayer> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children:[Text("Enter")] ,))
+                            children:const[Text("Enter")] ,)),
+                        
+                        SizedBox(width: 20,),
+                        ElevatedButton(
+                          onPressed: (){
+                            if(tileCount>0 && tileCount <= 4){
+                              if(activeTileSet == 0 && tileCount<=4){
+                                setState(() {
+                                  tileList1.removeAt(tileCount);
+                                  if(tileCount>=0){
+                                    tileCount = tileCount - 1;
+                                  }
+                                });
+                                
+                                
+                              }else if (activeTileSet == 1 && tileCount<=4){
+                                 setState(() {
+                                  tileList2.removeAt(tileCount);
+                                  if(tileCount>=0){
+                                    tileCount = tileCount - 1;
+                                  }
+                                });
+                                
+                              }else if(activeTileSet == 2 && tileCount<=4){
+                                 setState(() {
+                                  tileList3.removeAt(tileCount);
+                                  if(tileCount>=0){
+                                    tileCount = tileCount - 1;
+                                  }
+                                });
+                                
+                              }else if(activeTileSet == 3 && tileCount<=4){
+                                 setState(() {
+                                  tileList4.removeAt(tileCount);
+                                  if(tileCount>=0){
+                                    tileCount = tileCount - 1;
+                                  }
+                                });
+                                
+                              }else if(activeTileSet == 4 && tileCount<=4){
+                                 setState(() {
+                                  tileList5.removeAt(tileCount);
+                                  if(tileCount>=0){
+                                    tileCount = tileCount - 1;
+                                  }
+                                });
+                                
+                              }else if(activeTileSet == 5 && tileCount<=4){
+                                 setState(() {
+                                  tileList6.removeAt(tileCount);
+                                  if(tileCount>=0){
+                                    tileCount = tileCount - 1;
+                                  }
+                                });
+                                
+                              }
+                            }
+                          }, 
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children:const [Text("Backspace")] ,))
                       ],
                     ),
                   )
