@@ -5,9 +5,10 @@ class TileBox extends StatefulWidget {
   int activeTileSet;
   int tileSet;
   int tileNumber;
-  String tileletter;
+  String tileLetter;
   int currentTile;
-  TileBox({Key? key, required this.activeTileSet,required this.tileSet, required this.tileNumber, required this.tileletter, required this.currentTile}) : super(key: key);
+  String status;
+  TileBox({Key? key, required this.activeTileSet,required this.tileSet, required this.tileNumber, required this.tileLetter, required this.currentTile, required this.status}) : super(key: key);
 
   @override
   State<TileBox> createState() => _TileBoxState();
@@ -20,10 +21,15 @@ class _TileBoxState extends State<TileBox> {
       height: 50,
       width: 50,
       decoration: BoxDecoration(
-        color: widget.activeTileSet != widget.currentTile? Colors.grey[300] : Colors.grey[400],
+        color: widget.activeTileSet == widget.currentTile ? 
+        Colors.grey[400] :(widget.status == "correct" && widget.activeTileSet != widget.currentTile)? 
+        Colors.green[400]:(widget.status == "kinda" && widget.activeTileSet != widget.currentTile)? 
+        Colors.yellow[800]:(widget.status == "incorrect" && widget.activeTileSet != widget.currentTile)? 
+        Colors.grey[800] : 
+        Colors.grey[300],
         borderRadius: BorderRadius.circular(10)
       ),
-      child: Center(child: Text(widget.tileletter),), 
+      child: Center(child: Text(widget.tileLetter),), 
     );
   }
 }

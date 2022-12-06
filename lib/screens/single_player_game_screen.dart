@@ -13,8 +13,6 @@ class SinglePlayer extends StatefulWidget {
 
 class _SinglePlayerState extends State<SinglePlayer> {
 
-  List skills = [1,2,3,4,5];
-
   List alphabets = ["a","b","c","d","e",'f',"g","h","i","j","k","l","m","n","o","p","q","r","s",'t',"u","v","w","x","y","z"];
 
   int activeTileSet = 0;
@@ -25,15 +23,16 @@ class _SinglePlayerState extends State<SinglePlayer> {
   List tileList4 = ["","","","",""];
   List tileList5 = ["","","","",""];
   List tileList6 = ["","","","",""];
+  List status1 = ["","","","",""];
+  List status2 = ["","","","",""];
+  List status3 = ["","","","",""];
+  List status4 = ["","","","",""];
+  List status5 = ["","","","",""];
+  List status6 = ["","","","",""];
 
   int tileNumber = 0;
   int tileSet = 0;
   String tempWord = "whale";
-  // TextEditingController controller1 = TextEditingController();
-  // TextEditingController controller2 = TextEditingController();
-  // TextEditingController controller3 = TextEditingController();
-  // TextEditingController controller4 = TextEditingController();
-  // TextEditingController controller5 = TextEditingController();
 
   @override
   void initState() {
@@ -41,28 +40,127 @@ class _SinglePlayerState extends State<SinglePlayer> {
     super.initState();
   }
 
+  // function for updating used alphabet status
+  alphabetStatus(List word, List answer){
+    
+  }
+
   // function for when user submits the word
   onSubmit(){
     late String tempSubittedWord;
+    List splitAnswer = tempWord.split("");
     if(activeTileSet == 0){
       tempSubittedWord = tileList1.join();
+      for (var i = 0; i< tileList1.length; i++) {
+        for (var j = 0; j < tempWord.length; j++) {
+          if(tileList1[i]== tempWord[j] && i==j){
+              status1[i] = "correct";
+          }else if(tileList1[i]== tempWord[j]){
+              status1[i] = "kinda";
+          }
+        }
+      }
+      setState(() {
+        status1;
+      });
     }else if (activeTileSet == 1){
-      tempSubittedWord = tileList2.join();  
+      tempSubittedWord = tileList2.join();
+      for (var i = 0; i< tileList2.length; i++) {
+        for (var j = 0; j < tempWord.length; j++) {
+          if(tileList2[i]== tempWord[j] && i==j){
+            setState(() {
+              status2[i] = "correct";
+            });
+          }else if(tileList2[i]== tempWord[j]){
+            setState(() {
+              status2[i] = "kinda";
+            });
+          }
+        }
+        // if(status2[i] == ""){
+        //   status2[i] = "incorrect";
+        // }
+      }
     }else if(activeTileSet == 2){
-      tempSubittedWord = tileList3.join();  
+      tempSubittedWord = tileList3.join();
+      for (var i = 0; i< tileList1.length; i++) {
+        for (var j = 0; j < tempWord.length; j++) {
+          if(tileList3[i]== tempWord[j] && i==j){
+            setState(() {
+              status3[i] = "correct";
+            });
+          }else if(tileList3[i]== tempWord[j]){
+            setState(() {
+              status3[i] = "kinda";
+            });
+          }
+        }
+        // if(status3[i] == ""){
+        //   status3[i] = "incorrect";
+        // }
+      }
     }else if(activeTileSet == 3){
-      tempSubittedWord = tileList4.join();  
+      tempSubittedWord = tileList4.join();
+      for (var i = 0; i< tileList1.length; i++) {
+        for (var j = 0; j < tempWord.length; j++) {
+          if(tileList4[i]== tempWord[j] && i==j){
+            setState(() {
+              status4[i] = "correct";
+            });
+          }else if(tileList4[i]== tempWord[j]){
+            setState(() {
+              status4[i] = "kinda";
+            });
+          }
+        }
+        // if(status4[i] == ""){
+        //   status4[i] = "incorrect";
+        // }
+      } 
     }else if(activeTileSet == 4){
-      tempSubittedWord = tileList5.join();  
+      tempSubittedWord = tileList5.join();
+      for (var i = 0; i< tileList1.length; i++) {
+        for (var j = 0; j < tempWord.length; j++) {
+          if(tileList5[i]== tempWord[j] && i==j){
+            setState(() {
+              status5[i] = "correct";
+            });
+          }else if(tileList5[i]== tempWord[j]){
+            setState(() {
+              status5[i] = "kinda";
+            });
+          }
+        }
+        // if(status5[i] == ""){
+        //   status5[i] = "incorrect";
+        // }
+      } 
     }else if(activeTileSet == 5){
-      tempSubittedWord = tileList6.join();  
+      tempSubittedWord = tileList6.join();
+      for (var i = 0; i< tileList1.length; i++) {
+        for (var j = 0; j < tempWord.length; i++) {
+          if(tileList6[i]== tempWord[j] && i==j){
+            setState(() {
+              status6[i] = "correct";
+            });
+          }else if(tileList6[i]== tempWord[j]){
+            setState(() {
+              status6[i] = "kinda";
+            });
+          }
+        }
+        // if(status6[i] == ""){
+        //   status6[i] = "incorrect";
+        // }
+      }
     }else{
       tempSubittedWord = "";
     }
+    print(tempWord.split(""));
     if(tempWord == tempSubittedWord){
       print("yay");
     }
-    else if(activeTileSet>6){
+    else if(activeTileSet==5){
       print("fail");
     }
     else{
@@ -72,6 +170,8 @@ class _SinglePlayerState extends State<SinglePlayer> {
         tileSet = tileSet +1;
       });
     }
+    print(status1);
+    print(status2);
     
   }
 
@@ -79,7 +179,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Single player"),
+        title: const Text("Single player"),
       ),
       body: Container(
         child:SingleChildScrollView(
@@ -109,23 +209,23 @@ class _SinglePlayerState extends State<SinglePlayer> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileletter: tileList1[0]),
+                        child:  TileBox(status:status1[0], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileLetter: tileList1[0]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileletter: tileList1[1]),
+                        child:  TileBox(status:status1[1], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileLetter: tileList1[1]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileletter: tileList1[2]),
+                        child:  TileBox(status:status1[2], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileLetter: tileList1[2]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileletter: tileList1[3]),
+                        child:  TileBox(status:status1[3], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileLetter: tileList1[3]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileletter: tileList1[4]),
+                        child:  TileBox(status:status1[4], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileLetter: tileList1[4]),
                       ),
                     ],
                   ),
@@ -135,23 +235,23 @@ class _SinglePlayerState extends State<SinglePlayer> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileletter: tileList2[0]),
+                        child:  TileBox(status: status2[0], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileLetter: tileList2[0]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileletter: tileList2[1]),
+                        child:  TileBox(status: status2[1], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileLetter: tileList2[1]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileletter: tileList2[2]),
+                        child:  TileBox(status: status2[2], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileLetter: tileList2[2]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileletter: tileList2[3]),
+                        child:  TileBox(status: status2[3], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileLetter: tileList2[3]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileletter: tileList2[4]),
+                        child:  TileBox(status: status2[4], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileLetter: tileList2[4]),
                       ),
                     ],
                   ),
@@ -161,23 +261,23 @@ class _SinglePlayerState extends State<SinglePlayer> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileletter: tileList3[0]),
+                        child:  TileBox(status: status3[0] ,activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileLetter: tileList3[0]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileletter: tileList3[1]),
+                        child:  TileBox(status: status3[1] ,activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileLetter: tileList3[1]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileletter: tileList3[2]),
+                        child:  TileBox(status: status3[2] ,activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileLetter: tileList3[2]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileletter: tileList3[3]),
+                        child:  TileBox(status: status3[3] ,activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileLetter: tileList3[3]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileletter: tileList3[4]),
+                        child:  TileBox(status: status3[4] ,activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileLetter: tileList3[4]),
                       ),
                     ],
                   ),
@@ -187,23 +287,23 @@ class _SinglePlayerState extends State<SinglePlayer> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileletter: tileList4[0]),
+                        child:  TileBox(status: status4[0],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileLetter: tileList4[0]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileletter: tileList4[1]),
+                        child:  TileBox(status: status4[1],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileLetter: tileList4[1]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileletter: tileList4[2]),
+                        child:  TileBox(status: status4[2],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileLetter: tileList4[2]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileletter: tileList4[3]),
+                        child:  TileBox(status: status4[3],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileLetter: tileList4[3]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileletter: tileList4[4]),
+                        child:  TileBox(status: status4[4],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileLetter: tileList4[4]),
                       ),
                     ],
                   ),
@@ -213,23 +313,23 @@ class _SinglePlayerState extends State<SinglePlayer> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileletter: tileList5[0]),
+                        child:  TileBox(status:status5[0],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileLetter: tileList5[0]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileletter: tileList5[1]),
+                        child:  TileBox(status:status5[1],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileLetter: tileList5[1]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileletter: tileList5[2]),
+                        child:  TileBox(status:status5[2],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileLetter: tileList5[2]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileletter: tileList5[3]),
+                        child:  TileBox(status:status5[3],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileLetter: tileList5[3]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileletter: tileList5[4]),
+                        child:  TileBox(status:status5[4],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileLetter: tileList5[4]),
                       ),
                     ],
                   ),
@@ -239,23 +339,23 @@ class _SinglePlayerState extends State<SinglePlayer> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileletter: tileList6[0]),
+                        child:  TileBox(status:status6[0],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileLetter: tileList6[0]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileletter: tileList6[1]),
+                        child:  TileBox(status:status6[1],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileLetter: tileList6[1]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileletter: tileList6[2]),
+                        child:  TileBox(status:status6[2],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileLetter: tileList6[2]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileletter: tileList6[3]),
+                        child:  TileBox(status:status6[3],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileLetter: tileList6[3]),
                       ),
                       const SizedBox(width: 10,),
                       GestureDetector(
-                        child:  TileBox(activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileletter: tileList6[4]),
+                        child:  TileBox(status:status6[4],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileLetter: tileList6[4]),
                       ),
                     ],
                   ),
