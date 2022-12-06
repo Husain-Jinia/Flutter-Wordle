@@ -40,11 +40,6 @@ class _SinglePlayerState extends State<SinglePlayer> {
     super.initState();
   }
 
-  // function for updating used alphabet status
-  alphabetStatus(List word, List answer){
-    
-  }
-
   // function for when user submits the word
   onSubmit(){
     late String tempSubittedWord;
@@ -184,7 +179,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
       body: Container(
         child:SingleChildScrollView(
         child:Container(
-          margin: const EdgeInsets.only(top:50, left: 10, right: 10),
+          margin: const EdgeInsets.only(top:40, left: 12, right: 12),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -229,7 +224,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 15,),
+                  const SizedBox(height: 10,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -255,7 +250,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 15,),
+                  const SizedBox(height: 10,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -281,7 +276,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 15,),
+                  const SizedBox(height: 10,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -307,7 +302,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 15,),
+                  const SizedBox(height: 10,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -333,7 +328,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 15,),
+                  const SizedBox(height: 10,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -361,6 +356,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
                   ),
                   SizedBox(height: 20,),
                   Wrap(
+                    
                     // mainAxisAlignment: MainAxisAlignment.center,
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     children: List.generate(alphabets.length, (index){
@@ -387,20 +383,21 @@ class _SinglePlayerState extends State<SinglePlayer> {
                             });
                           },
                           child:  Container(
-                            height: 30,
-                            width: 25,
+                            height: 33,
+                            width: 27,
                             decoration: BoxDecoration(
                               color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(10)
+                              borderRadius: BorderRadius.circular(5)
                             ),
-                            child: Center(child: Text(alphabets[index]),),
+                            child: Center(child: Text(alphabets[index], style: TextStyle(fontSize: 16),),),
                           ),
                         ),
                       );
                     })
-                  ),
+                ),
                   Container(
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
                           onPressed: (){
@@ -409,7 +406,10 @@ class _SinglePlayerState extends State<SinglePlayer> {
                                
                               }
                           }, 
-                          child: Center(child: Text("enter"),))
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children:[Text("Enter")] ,))
                       ],
                     ),
                   )
