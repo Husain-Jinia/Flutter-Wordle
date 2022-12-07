@@ -4,6 +4,8 @@ import 'package:wordlr_mmultiplayer/screens/start_screen.dart';
 import 'package:wordlr_mmultiplayer/widgets/text_box_field.dart';
 import 'package:wordlr_mmultiplayer/widgets/tile_box.dart';
 import 'package:wordlr_mmultiplayer/widgets/tile_set.dart';
+import 'package:wordlr_mmultiplayer/word_list.dart';
+import "dart:math";
 
 class SinglePlayer extends StatefulWidget {
   const SinglePlayer({Key? key}) : super(key: key);
@@ -33,7 +35,8 @@ class _SinglePlayerState extends State<SinglePlayer> {
 
   int tileNumber = 0;
   int tileSet = 0;
-  String tempWord = "whale";
+
+  var tempWord = (words..shuffle()).first;
 
   @override
   void initState() {
@@ -47,12 +50,43 @@ class _SinglePlayerState extends State<SinglePlayer> {
       builder: (BuildContext context){
         return AlertDialog(
           content: Container(
-            height: 150,
+            height: 200,
             width: 300,
-            child: Center(child:Text("GAME OVER")),
+            child: Column(children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("GAME OVER" ,style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.pushReplacement<void, void>(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => const StartScreen(),
+                        ),
+                      ); 
+                    },
+                    child: Text("Exit", style: TextStyle(color: Colors.blue[400]),),
+                  )
+                ],
+              ),
+              const Divider(
+                height: 10
+              ),
+              const SizedBox(height: 50,),
+              Center(child: 
+              Column(
+                children: [
+                  const Text("The word was"),
+                  const SizedBox(height: 15,),
+                  Text(tempWord.toUpperCase(), style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.green[800]),)
+                ],
+              ))
+            ]),
           )
         );
-      });
+      }
+    );
   }
 
   onGameWin(){
@@ -491,58 +525,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
                         SizedBox(width: 20,),
                         ElevatedButton(
                           onPressed: (){
-                            if(tileCount>0 && tileCount <= 4){
-                              if(activeTileSet == 0 && tileCount<=4){
-                                setState(() {
-                                  tileList1.removeAt(tileCount);
-                                  if(tileCount>=0){
-                                    tileCount = tileCount - 1;
-                                  }
-                                });
-                                
-                                
-                              }else if (activeTileSet == 1 && tileCount<=4){
-                                 setState(() {
-                                  tileList2.removeAt(tileCount);
-                                  if(tileCount>=0){
-                                    tileCount = tileCount - 1;
-                                  }
-                                });
-                                
-                              }else if(activeTileSet == 2 && tileCount<=4){
-                                 setState(() {
-                                  tileList3.removeAt(tileCount);
-                                  if(tileCount>=0){
-                                    tileCount = tileCount - 1;
-                                  }
-                                });
-                                
-                              }else if(activeTileSet == 3 && tileCount<=4){
-                                 setState(() {
-                                  tileList4.removeAt(tileCount);
-                                  if(tileCount>=0){
-                                    tileCount = tileCount - 1;
-                                  }
-                                });
-                                
-                              }else if(activeTileSet == 4 && tileCount<=4){
-                                 setState(() {
-                                  tileList5.removeAt(tileCount);
-                                  if(tileCount>=0){
-                                    tileCount = tileCount - 1;
-                                  }
-                                });
-                                
-                              }else if(activeTileSet == 5 && tileCount<=4){
-                                 setState(() {
-                                  tileList6.removeAt(tileCount);
-                                  if(tileCount>=0){
-                                    tileCount = tileCount - 1;
-                                  }
-                                });
-                                
-                              }
-                            }
+                            
                           }, 
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
