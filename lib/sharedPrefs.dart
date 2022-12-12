@@ -17,4 +17,14 @@ class SharedPreferencesService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(key);
   }
+
+  Future<int?> getScoreFromSharedPref(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(key);
+  }
+
+  Future<bool> saveScoreToSharedPref(String key, int token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setInt(key, token);
+  }
 }

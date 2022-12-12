@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:wordlr_mmultiplayer/screens/start_screen.dart';
@@ -6,6 +8,8 @@ import 'package:wordlr_mmultiplayer/widgets/tile_box.dart';
 import 'package:wordlr_mmultiplayer/widgets/tile_set.dart';
 import 'package:wordlr_mmultiplayer/word_list.dart';
 import "dart:math";
+
+import '../sharedPrefs.dart';
 
 class SinglePlayer extends StatefulWidget {
   const SinglePlayer({Key? key}) : super(key: key);
@@ -17,7 +21,7 @@ class SinglePlayer extends StatefulWidget {
 class _SinglePlayerState extends State<SinglePlayer> {
 
   List alphabets = ["a","b","c","d","e",'f',"g","h","i","j","k","l","m","n","o","p","q","r","s",'t',"u","v","w","x","y","z"];
-
+  SharedPreferencesService prefs = SharedPreferencesService();
   int activeTileSet = 0;
   int tileCount = 0;
   List tileList1 = ["","","","",""];
@@ -44,6 +48,25 @@ class _SinglePlayerState extends State<SinglePlayer> {
     super.initState();
   }
 
+  score(String status) async {
+    int currentLevelScore = (5 - activeTileSet);
+    int? currentScore =await prefs.getScoreFromSharedPref('score');
+    print(currentLevelScore);
+    print(currentScore);
+    int totalScore = currentLevelScore + currentScore!;
+    print(totalScore);
+    await prefs.saveScoreToSharedPref("score", totalScore);
+    if(status == "over"){
+      int? highScore =await prefs.getScoreFromSharedPref('high-score');
+      int convertedHighScore = highScore??=0.toInt();
+      totalScore>convertedHighScore? 
+      await prefs.saveScoreToSharedPref("high-score", totalScore):
+      await prefs.saveScoreToSharedPref("high-score", highScore);
+      print("aaaaaaaaaaaaaaaaaaa $convertedHighScore");
+      await prefs.saveScoreToSharedPref("score", 0);
+    }
+  }
+
   onGameLoss(){
      return showDialog(
       context: context, 
@@ -59,12 +82,9 @@ class _SinglePlayerState extends State<SinglePlayer> {
                   const Text("GAME OVER" ,style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
                   GestureDetector(
                     onTap: (){
-                      Navigator.pushReplacement<void, void>(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const StartScreen(),
-                        ),
-                      ); 
+                      super.dispose();
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                      StartScreen()), (Route<dynamic> route) => false);
                     },
                     child: Text("Exit", style: TextStyle(color: Colors.blue[400]),),
                   )
@@ -99,20 +119,19 @@ class _SinglePlayerState extends State<SinglePlayer> {
             width: 300,
             child: Column(
               children: [
-                Text("CONGRATULATIONS", style: TextStyle(fontWeight: FontWeight.bold),),
-                Divider(
+                const Text("CONGRATULATIONS", style: TextStyle(fontWeight: FontWeight.bold),),
+                const Divider(
                   height: 15,
 
                 ),
                 const SizedBox(height: 40,),
-                Text("LEVEL 1", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                const Text("LEVEL 1", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                 const SizedBox(height: 25,),
                 activeTileSet==0?
-                Text("Solved in a single step"):Text("Solved in ${activeTileSet+1} steps"),
+                const Text("Solved in a single step"):Text("Solved in ${activeTileSet+1} steps"),
                  const SizedBox(height: 75),
-                 Divider(
+                const Divider(
                   height: 15,
-
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,24 +139,18 @@ class _SinglePlayerState extends State<SinglePlayer> {
                   children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushReplacement<void, void>(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const StartScreen(),
-                        ),
-                      );
+                      score("over");
+                      super.dispose();
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                      StartScreen()), (Route<dynamic> route) => false);  
                     },
                     child: Text("Exit to home screen"),
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushReplacement<void, void>(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const SinglePlayer(),
-                        ),
-                      );
-                       
+                      super.dispose();
+                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                      SinglePlayer()), (Route<dynamic> route) => false);                      
                     },
                     child: Text("Next level"),
                   )
@@ -265,9 +278,12 @@ class _SinglePlayerState extends State<SinglePlayer> {
     print(tempWord.split(""));
     if(tempWord == tempSubittedWord){
       onGameWin();
+      score("continue"); 
+      
     }
     else if(activeTileSet>5){
       onGameLoss();
+      score("over");
     }
     else{
       setState(() {
@@ -276,8 +292,6 @@ class _SinglePlayerState extends State<SinglePlayer> {
         tileSet = tileSet +1;
       });
     }
-    print(status1);
-    print(status2);
     
   }
 
@@ -295,21 +309,6 @@ class _SinglePlayerState extends State<SinglePlayer> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   crossAxisAlignment: CrossAxisAlignment.center,
-                  //   children: List.generate(skills.length, (index){
-                  //   return
-                  //     Container(
-                  //       padding: EdgeInsets.fromLTRB(5, 0, 5,0),
-                  //       child: GestureDetector(
-                  //         onTap: (){},
-                  //         child:  TileBox(),
-                  //       ),
-                  //     );
-                  //   })
-                  // ),
-                  // const SizedBox(height: 15,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -466,8 +465,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
                     ],
                   ),
                   SizedBox(height: 20,),
-                  Wrap(
-                    
+                  Wrap(                  
                     // mainAxisAlignment: MainAxisAlignment.center,
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     children: List.generate(alphabets.length, (index){
