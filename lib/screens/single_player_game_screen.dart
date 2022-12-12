@@ -87,6 +87,31 @@ class _SinglePlayerState extends State<SinglePlayer> {
     });
   }
 
+  onDelete(){
+    setState(() {
+      if (tileCount>=5) {
+      tileCount = tileCount-1;
+      }
+      if(activeTileSet == 0 ){
+        tileList1[tileCount]="" ;
+      }else if (activeTileSet == 1){
+        tileList2[tileCount]="" ;
+      }else if(activeTileSet == 2 ){
+        tileList3[tileCount]="" ;
+      }else if(activeTileSet == 3 ){
+        tileList4[tileCount]="" ;
+      }else if(activeTileSet == 4 ){
+        tileList5[tileCount]="" ;
+      }else if(activeTileSet == 5 ){
+        tileList6[tileCount]="" ;
+      }
+      if (tileCount>=1) {
+        tileCount = tileCount -1;
+      }
+      
+    });
+  }
+
   onGameLoss(){
      return showDialog(
       context: context, 
@@ -321,7 +346,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("LEVEL ${level}"),
+        title: Center(child:Text("LEVEL ${level}")),
       ),
       body: Container(
         child:SingleChildScrollView(
@@ -510,7 +535,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
                               }else if(activeTileSet == 5 && tileCount<=4){
                                 tileList6[tileCount] = alphabets[index];
                               }
-                              tileCount<4? tileCount = tileCount +1:tileCount = 999;                         
+                              tileCount<4? tileCount = tileCount +1:tileCount = 5;                         
                             });
                           },
                           child:  Container(
@@ -545,7 +570,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
                         SizedBox(width: 20,),
                         ElevatedButton(
                           onPressed: (){
-                            
+                            onDelete();
                           }, 
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
