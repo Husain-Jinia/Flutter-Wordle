@@ -12,21 +12,34 @@ class StartScreen extends StatefulWidget {
 class _StartScreenState extends State<StartScreen> {
 
   SharedPreferencesService prefs = SharedPreferencesService();
-  int score=0;
+  int highScore=0;
+  int score= 0;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    highScore();
+    setHighScore();
+    setScore();
   }
 
-  highScore() async {
+  setHighScore() async {
     int? highScore = await prefs.getScoreFromSharedPref('high-score');
     int ConvertedHighScore = highScore??=0.toInt();
     setState(() {
-      score  = ConvertedHighScore;
+      highScore  = ConvertedHighScore;
     });
+  }
+
+  setScore()async{
+    int? PrevScore = await prefs.getScoreFromSharedPref("score");
+    setState(() {
+      score = PrevScore??=0;
+    });
+  }
+
+  rebootScore() async {
+    await prefs.saveScoreToSharedPref("score", 0);
   }
 
   @override
@@ -34,7 +47,7 @@ class _StartScreenState extends State<StartScreen> {
     return 
     Scaffold(
       appBar: AppBar(
-        title: Text("Wordle"),
+        title: const Text("Wordle"),
       ),
       body:
       Center(
@@ -42,9 +55,31 @@ class _StartScreenState extends State<StartScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("High Score : $score"),
+            Text("High Score : $highScore"),
             Text("WORDLE", style: TextStyle(fontSize: 60, fontWeight: FontWeight.w900, color: Colors.blue[200]),),
             SizedBox(height: 15,),
+             SizedBox(
+            width: 240,
+            // height: double.infinity, 
+            child:
+            ElevatedButton(
+              style:ElevatedButton.styleFrom(
+                primary: Colors.blue[400]
+              ),
+              onPressed: () async {
+                rebootScore();
+                Navigator.pushReplacement<void, void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const SinglePlayer(),
+                  ),
+                );
+              }, 
+              child: const Text("Start a new game")
+            )),
+            
+            const SizedBox(height: 15,),
+            score!=0?
             SizedBox(
             width: 240,
             // height: double.infinity, 
@@ -61,8 +96,8 @@ class _StartScreenState extends State<StartScreen> {
                   ),
                 );
               }, 
-              child: const Text("Start game")
-            ))
+              child: const Text("Continue game")
+            )):Container()
           ],
         ),
       ),
