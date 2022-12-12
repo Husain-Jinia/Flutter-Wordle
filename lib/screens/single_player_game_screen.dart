@@ -42,19 +42,20 @@ class _SinglePlayerState extends State<SinglePlayer> {
 
   var tempWord = (words..shuffle()).first;
 
+  int level = 0;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    setLevel();
   }
 
   score(String status) async {
     int currentLevelScore = (5 - activeTileSet);
     int? currentScore =await prefs.getScoreFromSharedPref('score');
-    print(currentLevelScore);
-    print(currentScore);
-    int totalScore = currentLevelScore + currentScore!;
-    print(totalScore);
+    int totalScore;
+    status!="over"?totalScore = currentLevelScore + currentScore!:totalScore = currentScore!;
     await prefs.saveScoreToSharedPref("score", totalScore);
     if(status == "over"){
       int? highScore =await prefs.getScoreFromSharedPref('high-score');
@@ -62,9 +63,28 @@ class _SinglePlayerState extends State<SinglePlayer> {
       totalScore>convertedHighScore? 
       await prefs.saveScoreToSharedPref("high-score", totalScore):
       await prefs.saveScoreToSharedPref("high-score", highScore);
-      print("aaaaaaaaaaaaaaaaaaa $convertedHighScore");
       await prefs.saveScoreToSharedPref("score", 0);
+      print(await prefs.getScoreFromSharedPref('score'));
     }
+  }
+  
+  setLevel() async {
+    int? currentLevel = await prefs.getLevelFromSharedPref('level');
+    setState(() {
+      level = currentLevel??=1;
+    });
+  }
+
+  levelUpdate(status) async {
+    int? currentLevel = await prefs.getLevelFromSharedPref('level');
+    await prefs.saveLevelToSharedPref('level', currentLevel!.toInt()+1);
+    print(prefs.getLevelFromSharedPref('level'));
+    if(status == "over"){
+      await prefs.saveLevelToSharedPref('level', 1);
+    }
+    setState(() {
+      level = currentLevel??=1;
+    });
   }
 
   onGameLoss(){
@@ -125,7 +145,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
 
                 ),
                 const SizedBox(height: 40,),
-                const Text("LEVEL 1", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                Text("LEVEL ${level}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                 const SizedBox(height: 25,),
                 activeTileSet==0?
                 const Text("Solved in a single step"):Text("Solved in ${activeTileSet+1} steps"),
@@ -140,7 +160,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
                   GestureDetector(
                     onTap: () {
                       score("over");
-                      super.dispose();
+                      levelUpdate("over");
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
                       StartScreen()), (Route<dynamic> route) => false);  
                     },
@@ -278,12 +298,14 @@ class _SinglePlayerState extends State<SinglePlayer> {
     print(tempWord.split(""));
     if(tempWord == tempSubittedWord){
       onGameWin();
-      score("continue"); 
+      score("continue");
+      levelUpdate("continue");
       
     }
     else if(activeTileSet>5){
       onGameLoss();
       score("over");
+      levelUpdate("over");
     }
     else{
       setState(() {
@@ -299,7 +321,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Single player"),
+        title: Text("LEVEL ${level}"),
       ),
       body: Container(
         child:SingleChildScrollView(

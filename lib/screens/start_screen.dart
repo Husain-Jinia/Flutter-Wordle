@@ -12,7 +12,7 @@ class StartScreen extends StatefulWidget {
 class _StartScreenState extends State<StartScreen> {
 
   SharedPreferencesService prefs = SharedPreferencesService();
-  int highScore=0;
+  int highScore = 0;
   int score= 0;
 
   @override
@@ -24,8 +24,8 @@ class _StartScreenState extends State<StartScreen> {
   }
 
   setHighScore() async {
-    int? highScore = await prefs.getScoreFromSharedPref('high-score');
-    int ConvertedHighScore = highScore??=0.toInt();
+    int? hScore = await prefs.getScoreFromSharedPref('high-score');
+    int ConvertedHighScore = hScore??=0.toInt();
     setState(() {
       highScore  = ConvertedHighScore;
     });
@@ -35,11 +35,13 @@ class _StartScreenState extends State<StartScreen> {
     int? PrevScore = await prefs.getScoreFromSharedPref("score");
     setState(() {
       score = PrevScore??=0;
+      print("hjk");
     });
   }
 
-  rebootScore() async {
+  rebootScoreAndLevel() async {
     await prefs.saveScoreToSharedPref("score", 0);
+    await prefs.saveLevelToSharedPref('level', 1);
   }
 
   @override
@@ -66,8 +68,8 @@ class _StartScreenState extends State<StartScreen> {
               style:ElevatedButton.styleFrom(
                 primary: Colors.blue[400]
               ),
-              onPressed: () async {
-                rebootScore();
+              onPressed: () {
+                rebootScoreAndLevel();
                 Navigator.pushReplacement<void, void>(
                   context,
                   MaterialPageRoute<void>(

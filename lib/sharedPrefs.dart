@@ -8,15 +8,15 @@ class SharedPreferencesService {
     prefs = await SharedPreferences.getInstance();
   }
 
-  Future<bool> saveToSharedPref(String key, String token) async {
+  Future<int?> getLevelFromSharedPref(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.setString(key, token);
+    return prefs.getInt(key);
   }
 
-  Future<String?> getFromSharedPref(String key) async {
+  Future<bool> saveLevelToSharedPref(String key, int token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(key);
-  }
+    return prefs.setInt(key, token);
+  }  
 
   Future<int?> getScoreFromSharedPref(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
