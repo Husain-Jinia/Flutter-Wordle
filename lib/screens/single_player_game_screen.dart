@@ -215,22 +215,23 @@ class _SinglePlayerState extends State<SinglePlayer> {
 
   // function to verify wether its an actual word or not
   bool wordVerification(word){
-    String submittedWord = word.join();
-     for (var i = 0; i < words.length; i++) {
-      if ( submittedWord == words[i]) {
+    for (var i = 0; i < words.length; i++) {
+      if (word == words[i]) {
         return true;
       }
     }
     return false;
   }
 
-
   // function for when user submits the word
   onSubmit(){
     late String tempSubittedWord;
+    bool wordExists = true;
     if(activeTileSet == 0 ){
       tempSubittedWord = tileList1.join();
-      for (var i = 0; i< tileList1.length; i++) {
+      wordExists = wordVerification(tempSubittedWord);
+      if (wordExists == true) {
+        for (var i = 0; i< tileList1.length; i++) {
         for (var j = 0; j < tempWord.length; j++) {
           if(tileList1[i]== tempWord[j] && i==j){
               status1[i] = "correct";
@@ -239,11 +240,17 @@ class _SinglePlayerState extends State<SinglePlayer> {
           }
         }
       }
+      }
+      
       setState(() {
         status1;
       });
     }else if (activeTileSet == 1){
       tempSubittedWord = tileList2.join();
+      wordExists = wordVerification(tempSubittedWord);
+      if(wordExists==true){
+
+      }
       for (var i = 0; i< tileList2.length; i++) {
         for (var j = 0; j < tempWord.length; j++) {
           if(tileList2[i]== tempWord[j] && i==j){
@@ -259,6 +266,8 @@ class _SinglePlayerState extends State<SinglePlayer> {
       }
     }else if(activeTileSet == 2){
       tempSubittedWord = tileList3.join();
+      wordExists = wordVerification(tempSubittedWord);
+      if(wordExists==true){
       for (var i = 0; i< tileList1.length; i++) {
         for (var j = 0; j < tempWord.length; j++) {
           if(tileList3[i]== tempWord[j] && i==j){
@@ -272,9 +281,13 @@ class _SinglePlayerState extends State<SinglePlayer> {
           }
         }
       }
+      }
+      
     }else if(activeTileSet == 3){
       tempSubittedWord = tileList4.join();
-      for (var i = 0; i< tileList1.length; i++) {
+      wordExists = wordVerification(tempSubittedWord);
+      if(wordExists==true){
+        for (var i = 0; i< tileList1.length; i++) {
         for (var j = 0; j < tempWord.length; j++) {
           if(tileList4[i]== tempWord[j] && i==j){
             setState(() {
@@ -287,8 +300,12 @@ class _SinglePlayerState extends State<SinglePlayer> {
           }
         }
       } 
+      }
+      
     }else if(activeTileSet == 4){
       tempSubittedWord = tileList5.join();
+      wordExists = wordVerification(tempSubittedWord);
+      if(wordExists==true){
       for (var i = 0; i< tileList1.length; i++) {
         for (var j = 0; j < tempWord.length; j++) {
           if(tileList5[i]== tempWord[j] && i==j){
@@ -302,9 +319,13 @@ class _SinglePlayerState extends State<SinglePlayer> {
           }
         }
       } 
+      }
+      
     }else if(activeTileSet == 5){
       activeTileSet=6;
       tempSubittedWord = tileList6.join();
+      wordExists = wordVerification(tempSubittedWord);
+      if(wordExists==true){
       for (var i = 0; i< tileList1.length; i++) {
         for (var j = 0; j < tempWord.length; i++) {
           if(tileList6[i]== tempWord[j] && i==j){
@@ -318,6 +339,8 @@ class _SinglePlayerState extends State<SinglePlayer> {
           }
         }
       }
+      }
+      
     }else{
       tempSubittedWord = "";
     }
@@ -332,11 +355,14 @@ class _SinglePlayerState extends State<SinglePlayer> {
       levelUpdate("over");
     }
     else{
-      setState(() {
+      if (wordExists == true) {
+        setState(() {
         activeTileSet = activeTileSet + 1;
         tileCount = 0;
         tileSet = tileSet +1;
       });
+      }
+      
     }
   }
 
