@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
 import 'package:pinput/pinput.dart';
 import 'package:wordlr_mmultiplayer/screens/start_screen.dart';
 import 'package:wordlr_mmultiplayer/widgets/text_box_field.dart';
@@ -51,6 +52,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
     setLevel();
   }
 
+  // score management logic
   score(String status) async {
     int currentLevelScore = (5 - activeTileSet);
     int? currentScore =await prefs.getScoreFromSharedPref('score');
@@ -64,10 +66,10 @@ class _SinglePlayerState extends State<SinglePlayer> {
       await prefs.saveScoreToSharedPref("high-score", totalScore):
       await prefs.saveScoreToSharedPref("high-score", highScore);
       await prefs.saveScoreToSharedPref("score", 0);
-      print(await prefs.getScoreFromSharedPref('score'));
     }
   }
   
+  // logic for setting level when user enters the game after clicking continue
   setLevel() async {
     int? currentLevel = await prefs.getLevelFromSharedPref('level');
     setState(() {
@@ -75,6 +77,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
     });
   }
 
+  // logic for updating the levels
   levelUpdate(status) async {
     int? currentLevel = await prefs.getLevelFromSharedPref('level');
     await prefs.saveLevelToSharedPref('level', currentLevel!.toInt()+1);
@@ -87,6 +90,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
     });
   }
 
+  // logic for backspace functionality
   onDelete(){
     setState(() {
       if (tileCount>=5) {
@@ -107,17 +111,17 @@ class _SinglePlayerState extends State<SinglePlayer> {
       }
       if (tileCount>=1) {
         tileCount = tileCount -1;
-      }
-      
+      }    
     });
   }
 
+  // modal for when the user loses
   onGameLoss(){
      return showDialog(
       context: context, 
       builder: (BuildContext context){
         return AlertDialog(
-          content: Container(
+          content: SizedBox(
             height: 200,
             width: 300,
             child: Column(children: [
@@ -129,7 +133,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
                     onTap: (){
                       super.dispose();
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                      StartScreen()), (Route<dynamic> route) => false);
+                      const StartScreen()), (Route<dynamic> route) => false);
                     },
                     child: Text("Exit", style: TextStyle(color: Colors.blue[400]),),
                   )
@@ -154,12 +158,13 @@ class _SinglePlayerState extends State<SinglePlayer> {
     );
   }
 
+  // modal for when user completes the level
   onGameWin(){
     return showDialog(
       context: context, 
       builder: (BuildContext context){
         return AlertDialog(
-          content: Container(
+          content: SizedBox(
             height: 250,
             width: 300,
             child: Column(
@@ -170,7 +175,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
 
                 ),
                 const SizedBox(height: 40,),
-                Text("LEVEL ${level}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                Text("LEVEL ${level}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                 const SizedBox(height: 25,),
                 activeTileSet==0?
                 const Text("Solved in a single step"):Text("Solved in ${activeTileSet+1} steps"),
@@ -186,19 +191,18 @@ class _SinglePlayerState extends State<SinglePlayer> {
                     onTap: () {
                       score("over");
                       levelUpdate("over");
-                      
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                      StartScreen()), (Route<dynamic> route) => false);  
+                      const StartScreen()), (Route<dynamic> route) => false);  
                     },
-                    child: Text("Exit to home screen"),
+                    child: const Text("Exit to home screen"),
                   ),
                   GestureDetector(
                     onTap: () {
                       super.dispose();
-                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                      SinglePlayer()), (Route<dynamic> route) => false);                      
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                      const SinglePlayer()), (Route<dynamic> route) => false);                      
                     },
-                    child: Text("Next level"),
+                    child: const Text("Next level"),
                   )
                 ],)
               ],
@@ -209,11 +213,22 @@ class _SinglePlayerState extends State<SinglePlayer> {
     );
   }
 
+  // function to verify wether its an actual word or not
+  bool wordVerification(word){
+    String submittedWord = word.join();
+     for (var i = 0; i < words.length; i++) {
+      if ( submittedWord == words[i]) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
   // function for when user submits the word
   onSubmit(){
     late String tempSubittedWord;
-    List splitAnswer = tempWord.split("");
-    if(activeTileSet == 0){
+    if(activeTileSet == 0 ){
       tempSubittedWord = tileList1.join();
       for (var i = 0; i< tileList1.length; i++) {
         for (var j = 0; j < tempWord.length; j++) {
@@ -241,9 +256,6 @@ class _SinglePlayerState extends State<SinglePlayer> {
             });
           }
         }
-        // if(status2[i] == ""){
-        //   status2[i] = "incorrect";
-        // }
       }
     }else if(activeTileSet == 2){
       tempSubittedWord = tileList3.join();
@@ -259,9 +271,6 @@ class _SinglePlayerState extends State<SinglePlayer> {
             });
           }
         }
-        // if(status3[i] == ""){
-        //   status3[i] = "incorrect";
-        // }
       }
     }else if(activeTileSet == 3){
       tempSubittedWord = tileList4.join();
@@ -277,9 +286,6 @@ class _SinglePlayerState extends State<SinglePlayer> {
             });
           }
         }
-        // if(status4[i] == ""){
-        //   status4[i] = "incorrect";
-        // }
       } 
     }else if(activeTileSet == 4){
       tempSubittedWord = tileList5.join();
@@ -295,9 +301,6 @@ class _SinglePlayerState extends State<SinglePlayer> {
             });
           }
         }
-        // if(status5[i] == ""){
-        //   status5[i] = "incorrect";
-        // }
       } 
     }else if(activeTileSet == 5){
       activeTileSet=6;
@@ -314,19 +317,14 @@ class _SinglePlayerState extends State<SinglePlayer> {
             });
           }
         }
-        // if(status6[i] == ""){
-        //   status6[i] = "incorrect";
-        // }
       }
     }else{
       tempSubittedWord = "";
     }
-    print(tempWord.split(""));
     if(tempWord == tempSubittedWord){
       onGameWin();
       score("continue");
-      levelUpdate("continue");
-      
+      levelUpdate("continue");     
     }
     else if(activeTileSet>5){
       onGameLoss();
@@ -342,6 +340,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
     }
   }
 
+  // modal for when user presses back button when in middle of a game
   onBackPressed(){
     return showDialog(
       context: context, 
@@ -353,8 +352,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
             child: const Text("no")),
           ElevatedButton(onPressed: (){
             super.dispose();
-            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                      StartScreen()), (Route<dynamic> route) => false);
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const StartScreen()), (Route<dynamic> route) => false);
           }, 
           child: const Text("Yes"))
         ],
@@ -371,6 +369,14 @@ class _SinglePlayerState extends State<SinglePlayer> {
           title: Center(child:Text("LEVEL ${level}")),
         ),
         body: Container(
+          height: MediaQuery.of(context).size.height,
+          decoration: const BoxDecoration(
+                gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: GradientColors.winterNeva,
+              
+            )),
           child:SingleChildScrollView(
           child:Container(
             margin: const EdgeInsets.only(top:40, left: 12, right: 12),
@@ -533,13 +539,13 @@ class _SinglePlayerState extends State<SinglePlayer> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                     Wrap(
                       alignment: WrapAlignment.center,
                       children: List.generate(alphabets.length, (index){
                       return
                         Container(
-                          padding: EdgeInsets.fromLTRB(5, 10, 5,10),
+                          padding: const EdgeInsets.fromLTRB(5, 10, 5,10),
                           child: GestureDetector(
                             onTap: (){
                               setState(() {
@@ -566,37 +572,37 @@ class _SinglePlayerState extends State<SinglePlayer> {
                                 color: Colors.grey[300],
                                 borderRadius: BorderRadius.circular(5)
                               ),
-                              child: Center(child: Text(alphabets[index], style: TextStyle(fontSize: 16),),),
+                              child: Center(child: Text(alphabets[index], style: const TextStyle(fontSize: 16),),),
                             ),
                           ),
                         );
                       })
                   ),
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            onPressed: (){
-                              if(tileCount >= 4){
-                                onSubmit();  
-                              }
-                            }, 
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children:const[Text("Submit Word")] ,)),                    
-                          const SizedBox(width: 20,),
-                          ElevatedButton(
-                            onPressed: (){
-                              onDelete();
-                            }, 
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children:const [Text("Backspace")] ,))
-                        ],
-                      ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: (){
+                          if(tileCount >= 4){
+                            onSubmit();  
+                          }
+                        }, 
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children:const[Text("Submit Word")] ,)),                    
+                      const SizedBox(width: 20,),
+                      ElevatedButton(
+                        onPressed: (){
+                          onDelete();
+                        }, 
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children:const [Text("Backspace")] ,
+                          )
+                        )
+                      ],
                     )
                   ],
               ),
