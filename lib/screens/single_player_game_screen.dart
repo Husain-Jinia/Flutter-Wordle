@@ -186,6 +186,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
                     onTap: () {
                       score("over");
                       levelUpdate("over");
+                      
                       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
                       StartScreen()), (Route<dynamic> route) => false);  
                     },
@@ -339,251 +340,270 @@ class _SinglePlayerState extends State<SinglePlayer> {
         tileSet = tileSet +1;
       });
     }
-    
+  }
+
+  onBackPressed(){
+    return showDialog(
+      context: context, 
+      builder: (context) =>AlertDialog(
+        title: const Text("Do you really want to exit to the main screen?"),
+        actions: <Widget>[
+          ElevatedButton(
+            onPressed: ()=>Navigator.pop(context), 
+            child: const Text("no")),
+          ElevatedButton(onPressed: (){
+            super.dispose();
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                      StartScreen()), (Route<dynamic> route) => false);
+          }, 
+          child: const Text("Yes"))
+        ],
+      )
+      );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(child:Text("LEVEL ${level}")),
-      ),
-      body: Container(
-        child:SingleChildScrollView(
-        child:Container(
-          margin: const EdgeInsets.only(top:40, left: 12, right: 12),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        child:  TileBox(status:status1[0], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileLetter: tileList1[0]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status:status1[1], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileLetter: tileList1[1]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status:status1[2], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileLetter: tileList1[2]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status:status1[3], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileLetter: tileList1[3]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status:status1[4], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileLetter: tileList1[4]),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        child:  TileBox(status: status2[0], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileLetter: tileList2[0]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status: status2[1], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileLetter: tileList2[1]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status: status2[2], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileLetter: tileList2[2]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status: status2[3], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileLetter: tileList2[3]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status: status2[4], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileLetter: tileList2[4]),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        child:  TileBox(status: status3[0] ,activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileLetter: tileList3[0]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status: status3[1] ,activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileLetter: tileList3[1]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status: status3[2] ,activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileLetter: tileList3[2]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status: status3[3] ,activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileLetter: tileList3[3]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status: status3[4] ,activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileLetter: tileList3[4]),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        child:  TileBox(status: status4[0],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileLetter: tileList4[0]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status: status4[1],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileLetter: tileList4[1]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status: status4[2],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileLetter: tileList4[2]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status: status4[3],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileLetter: tileList4[3]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status: status4[4],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileLetter: tileList4[4]),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        child:  TileBox(status:status5[0],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileLetter: tileList5[0]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status:status5[1],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileLetter: tileList5[1]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status:status5[2],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileLetter: tileList5[2]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status:status5[3],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileLetter: tileList5[3]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status:status5[4],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileLetter: tileList5[4]),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        child:  TileBox(status:status6[0],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileLetter: tileList6[0]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status:status6[1],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileLetter: tileList6[1]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status:status6[2],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileLetter: tileList6[2]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status:status6[3],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileLetter: tileList6[3]),
-                      ),
-                      const SizedBox(width: 10,),
-                      GestureDetector(
-                        child:  TileBox(status:status6[4],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileLetter: tileList6[4]),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20,),
-                  Wrap(                  
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    // crossAxisAlignment: CrossAxisAlignment.center,
-                    children: List.generate(alphabets.length, (index){
-                    return
-                      Container(
-                        padding: EdgeInsets.fromLTRB(5, 10, 5,10),
-                        child: GestureDetector(
-                          onTap: (){
-                            setState(() {
-                              if(activeTileSet == 0 && tileCount<=4){
-                                tileList1[tileCount] = alphabets[index];
-                              }else if (activeTileSet == 1&& tileCount<=4){
-                                tileList2[tileCount] = alphabets[index];
-                              }else if(activeTileSet == 2 && tileCount<=4){
-                                tileList3[tileCount] = alphabets[index];
-                              }else if(activeTileSet == 3 && tileCount<=4){
-                                tileList4[tileCount] = alphabets[index];
-                              }else if(activeTileSet == 4 && tileCount<=4){
-                                tileList5[tileCount] = alphabets[index];
-                              }else if(activeTileSet == 5 && tileCount<=4){
-                                tileList6[tileCount] = alphabets[index];
-                              }
-                              tileCount<4? tileCount = tileCount +1:tileCount = 5;                         
-                            });
-                          },
-                          child:  Container(
-                            height: 33,
-                            width: 27,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(5)
-                            ),
-                            child: Center(child: Text(alphabets[index], style: TextStyle(fontSize: 16),),),
-                          ),
-                        ),
-                      );
-                    })
-                ),
-                  Container(
-                    child: Row(
+    return WillPopScope(
+      onWillPop: ()=>onBackPressed(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Center(child:Text("LEVEL ${level}")),
+        ),
+        body: Container(
+          child:SingleChildScrollView(
+          child:Container(
+            margin: const EdgeInsets.only(top:40, left: 12, right: 12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        ElevatedButton(
-                          onPressed: (){
-                            if(tileCount >= 4){
-                              onSubmit();
-                               
-                              }
-                          }, 
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children:const[Text("Enter")] ,)),
-                        
-                        SizedBox(width: 20,),
-                        ElevatedButton(
-                          onPressed: (){
-                            onDelete();
-                          }, 
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children:const [Text("Backspace")] ,))
+                        GestureDetector(
+                          child:  TileBox(status:status1[0], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileLetter: tileList1[0]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status:status1[1], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileLetter: tileList1[1]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status:status1[2], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileLetter: tileList1[2]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status:status1[3], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileLetter: tileList1[3]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status:status1[4], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:0, tileNumber:tileCount, tileLetter: tileList1[4]),
+                        ),
                       ],
                     ),
-                  )
-                ],
-            ),
-          )
-        ),
-      )
+                    const SizedBox(height: 10,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          child:  TileBox(status: status2[0], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileLetter: tileList2[0]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status: status2[1], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileLetter: tileList2[1]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status: status2[2], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileLetter: tileList2[2]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status: status2[3], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileLetter: tileList2[3]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status: status2[4], activeTileSet: activeTileSet, tileSet:tileSet, currentTile:1, tileNumber:tileCount, tileLetter: tileList2[4]),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          child:  TileBox(status: status3[0] ,activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileLetter: tileList3[0]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status: status3[1] ,activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileLetter: tileList3[1]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status: status3[2] ,activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileLetter: tileList3[2]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status: status3[3] ,activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileLetter: tileList3[3]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status: status3[4] ,activeTileSet: activeTileSet, tileSet:tileSet, currentTile:2, tileNumber:tileCount, tileLetter: tileList3[4]),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          child:  TileBox(status: status4[0],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileLetter: tileList4[0]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status: status4[1],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileLetter: tileList4[1]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status: status4[2],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileLetter: tileList4[2]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status: status4[3],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileLetter: tileList4[3]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status: status4[4],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:3, tileNumber:tileCount, tileLetter: tileList4[4]),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          child:  TileBox(status:status5[0],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileLetter: tileList5[0]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status:status5[1],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileLetter: tileList5[1]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status:status5[2],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileLetter: tileList5[2]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status:status5[3],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileLetter: tileList5[3]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status:status5[4],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:4, tileNumber:tileCount, tileLetter: tileList5[4]),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          child:  TileBox(status:status6[0],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileLetter: tileList6[0]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status:status6[1],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileLetter: tileList6[1]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status:status6[2],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileLetter: tileList6[2]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status:status6[3],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileLetter: tileList6[3]),
+                        ),
+                        const SizedBox(width: 10,),
+                        GestureDetector(
+                          child:  TileBox(status:status6[4],activeTileSet: activeTileSet, tileSet:tileSet, currentTile:5, tileNumber:tileCount, tileLetter: tileList6[4]),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20,),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      children: List.generate(alphabets.length, (index){
+                      return
+                        Container(
+                          padding: EdgeInsets.fromLTRB(5, 10, 5,10),
+                          child: GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                if(activeTileSet == 0 && tileCount<=4){
+                                  tileList1[tileCount] = alphabets[index];
+                                }else if (activeTileSet == 1&& tileCount<=4){
+                                  tileList2[tileCount] = alphabets[index];
+                                }else if(activeTileSet == 2 && tileCount<=4){
+                                  tileList3[tileCount] = alphabets[index];
+                                }else if(activeTileSet == 3 && tileCount<=4){
+                                  tileList4[tileCount] = alphabets[index];
+                                }else if(activeTileSet == 4 && tileCount<=4){
+                                  tileList5[tileCount] = alphabets[index];
+                                }else if(activeTileSet == 5 && tileCount<=4){
+                                  tileList6[tileCount] = alphabets[index];
+                                }
+                                tileCount<4? tileCount = tileCount +1:tileCount = 5;                         
+                              });
+                            },
+                            child:  Container(
+                              height: 33,
+                              width: 27,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(5)
+                              ),
+                              child: Center(child: Text(alphabets[index], style: TextStyle(fontSize: 16),),),
+                            ),
+                          ),
+                        );
+                      })
+                  ),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: (){
+                              if(tileCount >= 4){
+                                onSubmit();  
+                              }
+                            }, 
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children:const[Text("Submit Word")] ,)),                    
+                          const SizedBox(width: 20,),
+                          ElevatedButton(
+                            onPressed: (){
+                              onDelete();
+                            }, 
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children:const [Text("Backspace")] ,))
+                        ],
+                      ),
+                    )
+                  ],
+              ),
+            )
+          ),
+        )
+      ),
     );
   }
 }
